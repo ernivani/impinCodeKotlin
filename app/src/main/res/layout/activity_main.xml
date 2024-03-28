@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/inkDarkest">
+
+    <TextView
+        android:id="@+id/textViewAppName"
+        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
+        android:textColor="#9990FF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:lineSpacingExtra="8sp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/imageViewBg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="327dp"
+        android:maxWidth="327dp"
+        android:layout_below="@id/textViewAppName"
+        android:layout_marginTop="47dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Background"
+        android:src="@drawable/bg" />
+
+    <TextView
+        android:id="@+id/apprendreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewBg"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        android:text="Viens apprendre a coder"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:lineSpacingExtra="8sp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/myCustomButton"
+        android:layout_below="@id/apprendreTextView"
+        android:layout_marginTop="92dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:text="Creer un compte"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/existingAccountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/myCustomButton"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text="Tu as déjà un compte? Connecte toi !"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter_regular"
+        android:lineSpacingExtra="24sp"
+        android:gravity="center" />
+
+
+</RelativeLayout>

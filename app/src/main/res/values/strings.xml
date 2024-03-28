@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ImpinCode</string>    <string name="logout">Logout</string>
+    <string name="let_s_go">Let\'s Go !</string>
+    <string name="i_don_t_have_an_account">I don\'t have an account</string>
+    <string name="login">Login</string>
+    <string name="email_or_username">Email or Username</string>
+    <string name="please_login_with_your_information">Please login with your information</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="i_forgot_my_password">i forgot my password</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="register">Register</string>
+    <string name="welcome">Welcome</string>
+    <string name="register_to_continue">Register to continue</string>
+    <string name="username">Username</string>
+    <string name="email_address">Email Address</string>
+    <string name="login_empty_field">Email or Password cannot be empty</string>
+    <string name="register_empty_field">All fields are required</string>
+    <string name="network_error">Network error, please try again</string>
+    <string name="login_invalid_credentials">Login failed, please check your credentials</string>
+    <string name="register_invalid_credentials">Register failed, please check your credentials</string>
+</resources>
