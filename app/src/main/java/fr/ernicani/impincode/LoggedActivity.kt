@@ -2,7 +2,9 @@
 
 package fr.ernicani.impincode
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -16,9 +18,25 @@ import com.google.android.material.snackbar.Snackbar
 
 class LoggedActivity : AppCompatActivity() {
 
+    private lateinit var buttonLogout: Button
+    private lateinit var sharedPreferences: SharedPreferences
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged)
+
+
+        sharedPreferences = getSharedPreferences("user_session", MODE_PRIVATE)
+        
+        val token = sharedPreferences.getString("token", null)
+
+        if (token == null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
 
         val textViewAppName =
@@ -39,5 +57,15 @@ class LoggedActivity : AppCompatActivity() {
         )
 
         textViewAppName.text = spannable
+
+
+        buttonLogout = findViewById(R.id.buttonLogout)
+        buttonLogout.setOnClickListener {
+            sharedPreferences.edit().remove("token").apply()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 }

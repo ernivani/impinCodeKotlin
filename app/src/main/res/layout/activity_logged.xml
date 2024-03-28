@@ -21,4 +21,16 @@
         android:textAppearance="@style/impincode"
         android:translationY="-6.92sp" />
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonLogout"
+        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:text="Se déconnecter"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"/>
+
+
 </RelativeLayout>

@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_selector"
-        android:text="Creer un compte"
+        android:text="Se connecter"
         android:textColor="#FFFFFF"
         android:layout_centerHorizontal="true"/>
 
@@ -101,5 +101,22 @@
         android:textAppearance="@style/impincode"
         android:textSize="16sp"
         android:fontFamily="@font/inter_regular" />
+
+    <TextView
+        android:id="@+id/responseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/existingAccountTextView"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:lineSpacingExtra="14sp"
+        android:textAppearance="@style/impincode"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter_regular" />
+        
 
 </RelativeLayout>
