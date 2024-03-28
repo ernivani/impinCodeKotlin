@@ -15,11 +15,16 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
 
 class LoggedActivity : AppCompatActivity() {
 
     private lateinit var buttonLogout: Button
     private lateinit var sharedPreferences: SharedPreferences
+    private val client = OkHttpClient()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +66,80 @@ class LoggedActivity : AppCompatActivity() {
 
         buttonLogout = findViewById(R.id.buttonLogout)
         buttonLogout.setOnClickListener {
-            sharedPreferences.edit().remove("token").apply()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            logout()
         }
 
     }
+
+    private fun logout() {
+        with(sharedPreferences.edit()) {
+            remove("token")
+            apply()
+        }
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun checkToken() {
+        val token = sharedPreferences.getString("token", null)
+        if (token == null) {
+            logout()
+        }
+
+        val url = "https://code.impin.fr/api/check-token"
+
+        val payload = JSONObject().apply {
+            put("token", token)
+        }
+
+        val requestBody = payload.toString().toRequestBody()
+
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(getCallbackForApiResponse())
+
+    }
+
+
+    private fun getCallbackForApiResponse(): Callback {
+        return object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Snackbar.make(
+                        findViewById(android.R.id.content),
+                        getString(R.string.network_error),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                val jsonObject = JSONObject(body)
+                val success = jsonObject.getBoolean("success")
+
+                if (!success) {
+                    logout()
+                } else {
+                    val user = jsonObject.getJSONObject("user")
+                    val username = user.getString("username")
+                    runOnUiThread {
+                        Snackbar.make(
+                            findViewById(android.R.id.content),
+                            "Welcome back $username",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                }
+            }
+        }
+    }
+
 }
