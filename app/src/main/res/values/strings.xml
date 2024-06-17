@@ -14,9 +14,8 @@
     <string name="register_to_continue">Register to continue</string>
     <string name="username">Username</string>
     <string name="email_address">Email Address</string>
-    <string name="login_empty_field">Email or Password cannot be empty</string>
-    <string name="register_empty_field">All fields are required</string>
+    <string name="empty_field">All fields are required</string>
     <string name="network_error">Network error, please try again</string>
-    <string name="login_invalid_credentials">Login failed, please check your credentials</string>
-    <string name="register_invalid_credentials">Register failed, please check your credentials</string>
+    <string name="login_failed">Login failed, please check your credentials</string>
+    <string name="register_failed">Register failed, please check your credentials</string>
 </resources>

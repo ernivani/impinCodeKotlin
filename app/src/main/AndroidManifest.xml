@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".LoggedActivity"/>
+        <activity android:name=".SelectCourseActivity"/>
     </application>
 
 </manifest>

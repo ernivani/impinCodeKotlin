@@ -1,9 +1,6 @@
-// LoginActivity.kt
-
 package fr.ernicani.impincode
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -14,20 +11,19 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.IOException
+import fr.ernicani.impincode.utils.DatabaseManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var editTextUsername: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var buttonLogin: Button
-
     private lateinit var responseText: TextView
-
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var databaseManager: DatabaseManager
 
     private val client = OkHttpClient()
 
@@ -35,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        sharedPreferences = getSharedPreferences("user_session", MODE_PRIVATE)
+        databaseManager = DatabaseManager(this,this)
 
         editTextUsername = findViewById(R.id.editTextUsername)
         editTextPassword = findViewById(R.id.editTextPassword)
@@ -60,69 +56,39 @@ class LoginActivity : AppCompatActivity() {
         textViewAppName.text = spannable
 
         buttonLogin.setOnClickListener {
-            performAction("https://code.impin.fr/api/login")
+            performAction()
+            editTextUsername.clearFocus()
+            editTextPassword.clearFocus()
         }
     }
 
-    private fun performAction(url: String) {
+    private fun performAction() {
         val username = editTextUsername.text.toString().trim()
         val password = editTextPassword.text.toString().trim()
 
         if (username.isNotBlank() && password.isNotBlank()) {
-            sendRequest(url, username, password)
-        } else {
-            Snackbar.make(
-                findViewById(android.R.id.content),
-                getString(R.string.login_empty_field),
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    private fun sendRequest(url: String, email: String, password: String) {
-        val payload = JSONObject().apply {
-            put("username", email)
-            put("password", password)
-        }
-
-        val requestBody = payload.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaType())
-
-        val request = Request.Builder().url(url).post(requestBody).build()
-        client.newCall(request).enqueue(getCallbackForApiResponse())
-    }
-
-    private fun getCallbackForApiResponse(): Callback {
-        return object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    Snackbar.make(
-                        findViewById(android.R.id.content),
-                        getString(R.string.network_error),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                runOnUiThread {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body?.string()
-                        val jsonObject = JSONObject(responseBody)
-                        val token = jsonObject.getString("token")
-
-                        sharedPreferences.edit().putString("token", token).apply()
-
+            // Launch a coroutine on the IO dispatcher
+            CoroutineScope(Dispatchers.IO).launch {
+                val token = databaseManager.login(username, password)
+                // Switch to the Main dispatcher to update the UI
+                with(Dispatchers.Main) {
+                    if (token != null) {
                         navigateToLoggedActivity()
                     } else {
                         Snackbar.make(
                             findViewById(android.R.id.content),
-                            getString(R.string.login_invalid_credentials),
+                            getString(R.string.login_failed),
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
                 }
             }
+        } else {
+            Snackbar.make(
+                findViewById(android.R.id.content),
+                getString(R.string.empty_field),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -131,5 +97,4 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
 }
