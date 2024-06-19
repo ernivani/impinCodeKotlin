@@ -30,12 +30,54 @@ class Course {
     }
 
     constructor(id: Int,title: String, description: String) {
+        this.id = id
         this.title = title
         this.description = description
-        this.sections = sections
     }
 
     constructor() {
         
     }
+
+    fun getId(): Int {
+        return id
+    }
+
+    fun setId(id: Int) {
+        this.id = id
+    }
+
+    fun getTitle(): String {
+        return title
+    }
+
+    fun setTitle(title: String) {
+        this.title = title
+    }
+
+    fun getDescription(): String {
+        return description
+    }
+
+    fun setDescription(description: String) {
+        this.description = description
+    }
+
+    fun getSections(): List<Section> {
+        return sections
+    }
+
+    fun setSections(sections: List<Section>) {
+        this.sections = sections
+    }
+
+    override fun toString(): String {
+        return "Course{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", sections=" + sections +
+                '}'
+    }
+
 }

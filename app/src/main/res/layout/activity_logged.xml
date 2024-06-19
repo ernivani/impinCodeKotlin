@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/inkDarkest">
+    android:background="@color/inkDarkest"
+    tools:context=".LoggedActivity">
 
     <TextView
         android:id="@+id/textViewAppName"
@@ -21,16 +22,49 @@
         android:textAppearance="@style/impincode"
         android:translationY="-6.92sp" />
 
+    <TextView
+        android:id="@+id/textViewCourseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewAppName"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textViewCourseDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewCourseTitle"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:layout_centerHorizontal="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCourses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/textViewCourseDescription"
+        android:layout_marginTop="16dp"
+        android:layout_above="@id/buttonLogout"
+        android:layout_marginBottom="24dp"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:layout_centerHorizontal="true"
+        tools:listitem="@drawable/item_course" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonLogout"
-        android:layout_marginTop="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/button_selector"
         android:text="Se déconnecter"
-        android:textColor="#FFFFFF"
-        android:layout_centerHorizontal="true"/>
-
-
+        android:textColor="#FFFFFF" />
 </RelativeLayout>

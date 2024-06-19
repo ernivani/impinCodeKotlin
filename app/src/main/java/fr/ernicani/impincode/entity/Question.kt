@@ -5,34 +5,68 @@ import lombok.Setter
 
 class Question {
 
-    @Getter
-    @Setter
     private var id: Int = 0
 
-    @Getter
-    @Setter
     private var content: String = ""
 
-    @Getter
-    @Setter
     private var lesson: Lesson = Lesson()
 
-    @Getter
-    @Setter
-    private var answer: Answer = Answer()
+    private var answers: List<Answer> = ArrayList()
     
     constructor() {}
 
-    constructor(id: Int, content: String, lesson: Lesson, answer: Answer) {
+    constructor(id: Int, content: String, lesson: Lesson, answer: List<Answer>) {
         this.id = id
         this.content = content
         this.lesson = lesson
-        this.answer = answer
+        this.answers = answer
     }
 
-    constructor(id: Int, title: String, content: String) {
+    constructor(id: Int, content: String) {
         this.id = id
         this.content = content
     }
-    
+
+    fun getId(): Int {
+        return id
+    }
+
+    fun setId(id: Int) {
+        this.id = id
+    }
+
+    fun getContent(): String {
+        return content
+    }
+
+    fun setContent(content: String) {
+        this.content = content
+    }
+
+    fun getLesson(): Lesson {
+        return lesson
+    }
+
+    fun setLesson(lesson: Lesson) {
+        this.lesson = lesson
+    }
+
+    fun getAnswers(): List<Answer> {
+        return answers
+    }
+
+    fun setAnswers(answers: List<Answer>) {
+        this.answers = answers
+    }
+
+
+    override fun toString(): String {
+        return "Question{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", lesson=" + lesson +
+                ", answers=" + answers +
+                '}'
+    }
+
 }

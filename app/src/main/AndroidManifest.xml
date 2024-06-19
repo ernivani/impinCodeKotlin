@@ -28,6 +28,7 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".LoggedActivity"/>
         <activity android:name=".SelectCourseActivity"/>
+        <activity android:name=".LessonActivity"/>
     </application>
 
 </manifest>

@@ -5,20 +5,12 @@ import lombok.Setter
 
 class Answer {
 
-    @Getter
-    @Setter
     private var id: Int = 0
 
-    @Getter
-    @Setter
     private var content: String = ""
 
-    @Getter
-    @Setter
     private var question: Question = Question()
 
-    @Getter
-    @Setter
     private var isCorrect: Boolean = false
 
     constructor() {}
@@ -34,5 +26,42 @@ class Answer {
         this.id = id
         this.content = content
     }
+
+    fun getId(): Int {
+        return id
+    }
+
+    fun setId(id: Int) {
+        this.id = id
+    }
+
+    fun getContent(): String {
+        return content
+    }
+
+    fun setContent(content: String) {
+        this.content = content
+    }
+
+    fun getQuestion(): Question {
+        return question
+    }
+
+    fun setQuestion(question: Question) {
+        this.question = question
+    }
+
+    fun getIsCorrect(): Boolean {
+        return isCorrect
+    }
+
+    fun setIsCorrect(isCorrect: Boolean) {
+        this.isCorrect = isCorrect
+    }
+
+    override fun toString(): String {
+        return "Answer(id=$id, content='$content', question=$question, isCorrect=$isCorrect)"
+    }
+
     
 }

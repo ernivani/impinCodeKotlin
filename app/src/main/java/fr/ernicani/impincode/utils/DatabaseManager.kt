@@ -100,7 +100,6 @@ class DatabaseManager(private val context: Context, private val activity: Activi
             .post(body)
             .build()
         val response = client.newCall(request).execute()
-        // if the reponse is 401 it mean the token is not valid
         if (response.code == 401) {
             return@withContext null
         }
@@ -108,13 +107,39 @@ class DatabaseManager(private val context: Context, private val activity: Activi
             val responseBody = response.body?.string()
             val json = responseBody?.let { JSONObject(it) }
             if (json != null) {
-                val id = json.getInt("id")
-                val name = json.getString("name")
-                val description = json.getString("description")
-                return@withContext Course(id, name, description)
+                if (json.getBoolean("success")) {
+                    val courseJson = json.getJSONObject("course")
+                    val id = courseJson.getInt("id")
+                    val title = courseJson.getString("title")
+                    val description = courseJson.getString("description")
+                    return@withContext Course(id, title, description)
+                }
             }
         }
         return@withContext null
+    }
+
+    suspend fun getCourseDetails(course: Course): Course? = withContext(Dispatchers.IO) {
+        if (!isUserLogged()) {
+            logout()
+            return@withContext null
+        }
+
+        val courseId = course.getId()
+        Log.d("DatabaseManager", "Course ID: $courseId")
+
+        val sections = getSections(courseId)
+        for (section in sections) {
+            val units = getUnits(section.getId())
+            for (unit in units) {
+                val lessons = getLessons(unit.getId())
+                unit.setLessons(lessons)
+            }
+            section.setUnits(units)
+        }
+        course.setSections(sections)
+
+        return@withContext course
     }
 
     private fun isTokenValid(token: String): Boolean {
@@ -255,17 +280,16 @@ class DatabaseManager(private val context: Context, private val activity: Activi
             .post(body)
             .build()
         val response = client.newCall(request).execute()
-        if (response.isSuccessful) {
-            val responseBody = response.body?.string()
+        val responseBody = response.body?.string()
+        if (response.isSuccessful && responseBody != null) {
             val json = JSONObject(responseBody)
             val questions = json.getJSONArray("questions")
             val questionsList = mutableListOf<Question>()
             for (i in 0 until questions.length()) {
                 val jsonQuestion = questions.getJSONObject(i)
                 val id = jsonQuestion.getInt("id")
-                val title = jsonQuestion.getString("title")
                 val content = jsonQuestion.getString("content")
-                val question = Question(id, title, content)
+                val question = Question(id, content)
                 questionsList.add(question)
             }
             return@withContext questionsList
